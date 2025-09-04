@@ -59,7 +59,6 @@ const StudentDetails = (props) => {
     setPageTitle("Student Details");
   }, [setPageTitle]);
 
-  // ✅ Back button preserves search/filters
   const handleBack = useCallback(() => {
     history.goBack();
   }, [history]);
@@ -72,7 +71,6 @@ const StudentDetails = (props) => {
 
   return (
     <div className={classes.root}>
-      {/* Back Button */}
       <div className={classes.topControls}>
         <Button
           onClick={handleBack}

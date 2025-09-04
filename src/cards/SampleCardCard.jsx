@@ -59,7 +59,7 @@ function StudentCard(props) {
 
   const handleClick = (item) => {
     navigateToPage({
-      route: `/details?studentId=${item.studentId}`, // ✅ go to details page
+      route: `/details?studentId=${item.studentId}`,
       state: { item },
     });
   };
