@@ -126,5 +126,6 @@ Reinstall all your dependencies from scratch:
 
 1. Delete your node_modules directory
 2. Delete your package-lock.json file
-3. Run `npm install`#   S t u d e n t - E x p e r i e n c e - C a r d  
+3. Run `npm install`#   S t u d e n t - E x p e r i e n c e - C a r d 
+ 
  
