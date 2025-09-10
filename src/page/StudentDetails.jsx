@@ -1,57 +1,38 @@
-import React, { useEffect, useMemo, useCallback } from "react";
-import { withStyles } from "@ellucian/react-design-system/core/styles";
+import React, { useState, useMemo, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
-  spacing20,
-  spacing30,
-} from "@ellucian/react-design-system/core/styles/tokens";
-import {
+  MasterDetail,
   Typography,
   Button,
   Divider,
 } from "@ellucian/react-design-system/core";
-import PropTypes from "prop-types";
+import { withStyles } from "@ellucian/react-design-system/core/styles";
 import { usePageControl } from "@ellucian/experience-extension-utils";
 import { useLocation, useHistory } from "react-router-dom";
 import { Icon } from "@ellucian/ds-icons/lib";
-import students from "../../json/students.json";
+import students from "../students.json";
 
-const styles = () => ({
+const styles = (theme) => ({
   root: {
-    margin: spacing30,
-  },
-  topControls: {
-    display: "flex",
-    alignItems: "center",
-    gap: spacing20,
-    marginBottom: spacing30,
-  },
-  sectionHeading: {
-    borderBottom: "2px solid #000",
-    paddingBottom: "4px",
-    display: "inline-block",
-    marginBottom: "12px",
-  },
-  section: {
-    marginTop: spacing30,
-    marginBottom: spacing30,
-  },
-  field: {
-    marginBottom: spacing20,
+    height: "35rem",
+    width: "100%",
+    backgroundColor: theme.palette.grey[100],
+    padding: theme.spacing(2),
   },
 });
 
-const StudentDetails = (props) => {
+const StudentDetailsMasterDetail = withStyles(styles)((props) => {
   const { classes } = props;
   const { setPageTitle } = usePageControl();
   const location = useLocation();
   const history = useHistory();
+  const { navigateToPage } = usePageControl();
 
-  // ✅ Get studentId from query params
   const queryParams = new URLSearchParams(location.search);
-  const studentId = queryParams.get("studentId");
+  const studentId = queryParams.get("studentId")?.trim();
 
-  const selectedStudent = useMemo(
-    () => students.find((el) => el.studentId === studentId),
+  const student = useMemo(
+    () => students.find((s) => s.studentId === studentId),
     [studentId]
   );
 
@@ -59,111 +40,119 @@ const StudentDetails = (props) => {
     setPageTitle("Student Details");
   }, [setPageTitle]);
 
-  const handleBack = useCallback(() => {
-    history.goBack();
-  }, [history]);
+  const [selectedNodeId, setSelectedNodeId] = useState("basic");
 
-  if (!selectedStudent) {
-    return (
-      <Typography variant="body1">No student details available.</Typography>
-    );
+  const handleNodeSelect = (e, item) => {
+    setSelectedNodeId(item.nodeId);
+  };
+
+  if (!student) {
+    return <Typography>No student details available.</Typography>;
   }
+
+  const menu = [
+    { label: "Basic Info", nodeId: "basic" },
+    { label: "Contact Info", nodeId: "contact" },
+    { label: "Housing Info", nodeId: "housing" },
+    { label: "Grade Info", nodeId: "grade" },
+    { label: "Class Schedule", nodeId: "schedule" },
+    { label: "FERPA Info", nodeId: "ferpa" },
+  ];
+
+  const renderDetail = () => {
+    switch (selectedNodeId) {
+      case "basic":
+        return (
+          <>
+            <Typography variant="h2">
+              {student.firstName} {student.lastName}
+            </Typography>
+            <Typography>ID: {student.studentId}</Typography>
+            <Typography>Email: {student.email}</Typography>
+          </>
+        );
+      case "contact":
+        return (
+          <>
+            {Object.entries(student.contactInformation).map(([key, value]) => (
+              <Typography key={key}>
+                <strong>{key}:</strong> {value}
+              </Typography>
+            ))}
+          </>
+        );
+      case "housing":
+        return (
+          <>
+            {Object.entries(student.housingInformation).map(([key, value]) => (
+              <Typography key={key}>
+                <strong>{key}:</strong> {value}
+              </Typography>
+            ))}
+          </>
+        );
+      case "grade":
+        return (
+          <>
+            {Object.entries(student.gradeInformation).map(([key, value]) => (
+              <Typography key={key}>
+                <strong>{key}:</strong> {value}
+              </Typography>
+            ))}
+          </>
+        );
+      case "schedule":
+        return (
+          <Button
+            onClick={() =>
+              history.push(`class-schedule?studentId=${student.studentId}`)
+            }
+            color="primary"
+            startIcon={<Icon name="arrow-right" />}
+          >
+            Go to Class Schedule
+          </Button>
+        );
+      case "ferpa":
+        return (
+          <>
+            {student.ferpaReleaseDesignees.map((el, idx) => (
+              <Typography key={idx}>
+                <strong>{el.name}:</strong> {el.passcode}
+              </Typography>
+            ))}
+          </>
+        );
+      default:
+        return <Typography>Select a section</Typography>;
+    }
+  };
 
   return (
     <div className={classes.root}>
-      <div className={classes.topControls}>
-        <Button
-          onClick={handleBack}
-          color="secondary"
-          startIcon={<Icon name="arrow-left" />}
-        >
-          Back
-        </Button>
-      </div>
+      <Button
+        onClick={() => navigateToPage({ route: "/" })} // empty route = back to card
+        color="secondary"
+        startIcon={<Icon name="arrow-left" />}
+      >
+        Back to Card
+      </Button>
 
-      {/* Basic Info */}
-      <div className={classes.section}>
-        <Typography variant="h2">
-          {selectedStudent.firstName} {selectedStudent.lastName}
-        </Typography>
-        <Typography variant="body1">ID: {selectedStudent.studentId}</Typography>
-        <Typography variant="body1">Email: {selectedStudent.email}</Typography>
-      </div>
-      <Divider />
-
-      {/* Contact Info */}
-      {selectedStudent?.contactInformation && (
-        <div className={classes.section}>
-          <Typography variant="h2" className={classes.sectionHeading}>
-            Contact Information
-          </Typography>
-          {Object.entries(selectedStudent.contactInformation).map(
-            ([key, value]) => (
-              <Typography key={key} variant="body1" className={classes.field}>
-                <strong>{key.replace(/([A-Z])/g, " $1")}: </strong>
-                {value}
-              </Typography>
-            )
-          )}
-        </div>
-      )}
-      <Divider />
-
-      {/* Housing Info */}
-      {selectedStudent?.housingInformation && (
-        <div className={classes.section}>
-          <Typography variant="h2" className={classes.sectionHeading}>
-            Housing Information
-          </Typography>
-          {Object.entries(selectedStudent.housingInformation).map(
-            ([key, value]) => (
-              <Typography key={key} variant="body1" className={classes.field}>
-                <strong>{key.replace(/([A-Z])/g, " $1")}: </strong>
-                {value}
-              </Typography>
-            )
-          )}
-        </div>
-      )}
-      <Divider />
-
-      {/* Grade Info */}
-      {selectedStudent?.gradeInformation && (
-        <div className={classes.section}>
-          <Typography variant="h2" className={classes.sectionHeading}>
-            Grade Information
-          </Typography>
-          {Object.entries(selectedStudent.gradeInformation).map(
-            ([key, value]) => (
-              <Typography key={key} variant="body1" className={classes.field}>
-                <strong>{key.replace(/([A-Z])/g, " $1")}: </strong>
-                {value}
-              </Typography>
-            )
-          )}
-        </div>
-      )}
-      <Divider />
-
-      {/* FERPA Info */}
-      {selectedStudent?.ferpaReleaseDesignees?.length > 0 && (
-        <div className={classes.section}>
-          <Typography variant="h2" className={classes.sectionHeading}>
-            FERPA Academic Information Release Designees
-          </Typography>
-          {selectedStudent.ferpaReleaseDesignees.map((el, idx) => (
-            <Typography key={idx} variant="body1" className={classes.field}>
-              <strong>{el.name}:</strong> {el.passcode}
-            </Typography>
-          ))}
-        </div>
-      )}
+      <Divider style={{ marginTop: "1rem" }} />
+      <MasterDetail
+        title="Student Details"
+        menu={menu}
+        onNodeSelect={handleNodeSelect}
+        selectedNodeId={selectedNodeId}
+      >
+        {renderDetail()}
+      </MasterDetail>
     </div>
   );
-};
+});
 
-StudentDetails.propTypes = {
+StudentDetailsMasterDetail.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(StudentDetails);
+export default StudentDetailsMasterDetail;

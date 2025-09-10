@@ -1,19 +1,17 @@
-
-
 [
   {
     "studentId": "A0000XXXXX",
-    "firstName": "ABC",
-    "lastName": "Smith",
-    "email": "abcSmith@gmail.com",
+    "firstName": "Michael",
+    "lastName": "Anderson",
+    "email": "michael.anderson@gmail.com",
     "contactInformation": {
-      "preferredEmail": "abcSmith@gmail.com",
+      "preferredEmail": "michael.anderson@gmail.com",
       "primaryPhone": "123-456-7890",
-      "campusEmail": "abc.smith@university.edu",
+      "campusEmail": "michael.anderson@university.edu",
       "cellularPhone": "987-654-3210",
       "campusMail": "Box 101",
-      "emergencyContactName": "John Smith",
-      "emergencyContactRelationship": "Father",
+      "emergencyContactName": "Laura Anderson",
+      "emergencyContactRelationship": "Mother",
       "emergencyContactPhoneNumber": "123-111-2222"
     },
     "housingInformation": {
@@ -59,23 +57,23 @@
       }
     ],
     "ferpaReleaseDesignees": [
-      { "name": "Jane Smith", "passcode": "1234" },
-      { "name": "Mike Smith", "passcode": "5678" }
+      { "name": "Daniel Anderson", "passcode": "1234" },
+      { "name": "Sophia Anderson", "passcode": "5678" }
     ]
   },
   {
     "studentId": "B0000YYYYY",
-    "firstName": "B",
-    "lastName": "Smith",
-    "email": "xyzSmith@gmail.com",
+    "firstName": "Olivia",
+    "lastName": "Martinez",
+    "email": "olivia.martinez@gmail.com",
     "contactInformation": {
-      "preferredEmail": "xyzSmith@gmail.com",
+      "preferredEmail": "olivia.martinez@gmail.com",
       "primaryPhone": "222-333-4444",
-      "campusEmail": "b.smith@university.edu",
+      "campusEmail": "olivia.martinez@university.edu",
       "cellularPhone": "999-888-7777",
       "campusMail": "Box 102",
-      "emergencyContactName": "Mary Smith",
-      "emergencyContactRelationship": "Mother",
+      "emergencyContactName": "Carlos Martinez",
+      "emergencyContactRelationship": "Father",
       "emergencyContactPhoneNumber": "222-111-3333"
     },
     "housingInformation": {
@@ -120,22 +118,20 @@
         "room": "210"
       }
     ],
-    "ferpaReleaseDesignees": [
-      { "name": "Sarah Smith", "passcode": "4321" }
-    ]
+    "ferpaReleaseDesignees": [{ "name": "Emma Martinez", "passcode": "4321" }]
   },
   {
     "studentId": "C0000ZZZZZ",
-    "firstName": "Charlie",
-    "lastName": "Brown",
-    "email": "charlie.brown@gmail.com",
+    "firstName": "William",
+    "lastName": "Harris",
+    "email": "william.harris@gmail.com",
     "contactInformation": {
-      "preferredEmail": "charlie.brown@gmail.com",
+      "preferredEmail": "william.harris@gmail.com",
       "primaryPhone": "333-444-5555",
-      "campusEmail": "charlie.brown@university.edu",
+      "campusEmail": "william.harris@university.edu",
       "cellularPhone": "444-555-6666",
       "campusMail": "Box 103",
-      "emergencyContactName": "Lucy Brown",
+      "emergencyContactName": "Sarah Harris",
       "emergencyContactRelationship": "Sister",
       "emergencyContactPhoneNumber": "333-222-4444"
     },
@@ -181,11 +177,6 @@
         "room": "205"
       }
     ],
-    "ferpaReleaseDesignees": [
-      { "name": "Linus Brown", "passcode": "5678" }
-    ]
+    "ferpaReleaseDesignees": [{ "name": "James Harris", "passcode": "5678" }]
   }
 ]
-
-
-

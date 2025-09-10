@@ -9,7 +9,7 @@ import {
   Search,
   Typography,
 } from "@ellucian/react-design-system/core";
-import students from "../../json/students.json";
+import students from "../students.json";
 import PropTypes from "prop-types";
 import { useCardControl } from "@ellucian/experience-extension-utils";
 

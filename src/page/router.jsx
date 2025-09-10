@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import StudentDetails from "./StudentDetails";
+import ClassSchedule from "./ClassSchedule";
 
 // for more information on react router: https://v5.reactrouter.com/web/guides/quick-start
 
@@ -11,6 +12,9 @@ const RouterPage = (props) => {
       <Switch>
         <Route path="/details" exact>
           <StudentDetails {...props} />
+        </Route>
+        <Route path="/class-schedule" exact>
+          <ClassSchedule {...props} />
         </Route>
       </Switch>
     </Router>
